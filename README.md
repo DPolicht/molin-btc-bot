@@ -99,7 +99,7 @@ The included constant-price experiment proves that forced trading does not
 solve the task: one round trip loses exactly its fees, and repeated round trips
 lose more. Synthetic tests verify accounting and execution, **not profitability**.
 No empirical claim about an unimplemented alternative strategy is made.
-See `evidence/live-output.txt` and `VALIDATION.md` for what actually ran and the
+See `evidence/final-live-output.txt` and `VALIDATION.md` for what actually ran and the
 observed result. Failed windows remain part of the evidence.
 
 ## Why a guaranteed rerun profit cannot be promised
