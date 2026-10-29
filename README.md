@@ -1,136 +1,153 @@
-# BTC/USD Trend Bot — Molin take-home experiment
+# BTC/USD paper-trading bot — Molin take-home
 
-A long-only, real-data paper replay starting with $10,000. Default position size:
-**10% of available cash**. No leverage, shorting, API keys or real orders.
-The fixed strategy is a trend pullback with **EMA 20/60, 0.4% SL, 0.8% TP**.
+A fixed, long-only trend-pullback strategy starting with **$10,000**, allocating
+**10% of available cash** per position. It never submits real orders.
 
-## Run
+## Setup and one-command execution
 
-Prerequisites: Python 3.12+ and internet with working TLS certificates. No pip
-packages are needed. From a fresh clone:
+Prerequisites: **Python 3.12+**, working internet/TLS, and Git to clone the repo.
+No pip dependencies, account or API keys are required. On a clean Mac, install
+Python 3.12+ from https://www.python.org/downloads/macos/ and run its bundled
+`Install Certificates.command` if HTTPS certificate setup is needed.
+
+Clone the repository URL supplied in the submission email:
 
 ```sh
-git clone <YOUR_REPOSITORY_URL>
+git clone YOUR_REPOSITORY_URL molin-btc-bot
 cd molin-btc-bot
 python3 bot.py
 ```
 
-Replace the URL with the actual remote when publishing. On Windows, use
-`py -3 bot.py` or double-click **Run_Bot.bat** to keep the window open afterward.
-On macOS, install Python from python.org and run its bundled certificate installer
-if required. A clean Mac has **not** been available for testing here.
+After setup, **`python3 bot.py` is the single run command**. It fetches the latest
+window every time, prints all trades and checks, and saves raw candles and
+results under `runs/latest/`. Windows: `py -3 bot.py` or `Run_Bot.bat`.
+For the attached ZIP, extract it, open its `molin-btc-bot` folder in Terminal,
+and run the same command; Git is not required for the ZIP route.
 
-The bot always fetches fresh Coinbase Exchange BTC-USD one-minute candles.
-It prints every round trip, fees, P/L, buy-and-hold and assignment PASS/FAIL.
-It saves raw data and JSON results in `runs/latest/`. Failed data retrieval does
-not silently switch to old or synthetic data. A completed experiment exits 0 even
-if unprofitable; retrieval/software errors exit 1.
+**Verification:** tested with Python 3.12.14 on Linux, including a fresh local
+clone, 13 passing tests and reproduction of the saved live run. Native macOS
+has not been tested in this environment. The included `macOS verification`
+GitHub Actions workflow will test a fresh checkout on macOS after publication,
+including a latest-data run; no success is claimed before it actually runs.
+A green workflow verifies execution, not future profitability. Read its live
+output to check whether the trading conditions passed.
+
+## Strategy: when, how and why
+
+Buy a recovered pullback within a locally rising trend. On closed one-minute
+candles require price > EMA20 > EMA60, with EMA60 higher than five minutes
+previously; the preceding close must have been at or below its EMA20. Execute
+at the next minute open. EMAs are seeded and recomputed over the last 120
+closed bars, including two hours of pre-window warm-up.
+
+Allocate 10% of cash, including the buy fee, with one position at a time. Place
+a **0.4% stop loss** and **0.8% take profit** relative to the executed buy price.
+Close after 120 minutes if neither is hit; wait five minutes after an exit.
+Liquidate at the final minute open and do not enter there. This guarantees
+flatness in the replay, not profitability. The economic hypothesis is that
+buying a recovered pullback can capture continuation without chasing a breakout.
+
+Fees are **0.1% on each side**, plus default adverse slippage of **2 bps per
+side**. Stops and targets are evaluated against one-minute OHLC. If both are
+touched, the stop wins; stop gaps fill at the worse opening price and favorable
+target gaps are capped. Intrabar exit times are labelled at candle end because
+the exact touch time is unknown. These assumptions do not model order-book
+liquidity, latency, partial fills or exchange lot sizes.
+
+## BTC price source and window
+
+The bot calls the free, public **Coinbase Exchange BTC-USD candles REST API**
+using Python's standard-library HTTPS client:
+
+`https://api.exchange.coinbase.com/products/BTC-USD/candles`
+
+It requests 60-second candles with explicit UTC start/end times, in pages of
+at most 240 minutes, below the API's 300-candle limit. Coinbase rows are parsed
+as `[time, low, high, open, close, volume]`; results are sorted and deduplicated.
+Requests are retried up to three times. Missing minutes, conflicting duplicates
+or invalid OHLCV cause an error, not invented prices or an offline fallback.
+
+The window is exactly 24 hours ending at invocation rounded down to the minute
+(less than 60 seconds before invocation). The unfinished minute is excluded.
+The final executable mark is the last minute open. This is a disclosed
+minute-resolution interpretation of the brief. Warm-up affects indicators only.
+Every entry uses earlier closed candles; no decision uses its execution bar's
+future high/low/close. Buy-and-hold uses the same first/final opens and costs,
+but invests the whole account rather than 10%. Drawdown is sampled equity,
+not a tick-level maximum. API reference:
+https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-candles
+
+## Development and experiments
+
+The cost hurdle came first: fees alone require about 0.2002% appreciation for a
+round trip to break even. Mean reversion was tried first, followed by 24 fixed
+trend configurations. EMA20/60 pullback was selected using the development day,
+then frozen before a fresh data fetch. It is an **in-sample selection**; the
+fresh-fetch window overlaps development and is not independent validation.
+
+| Experiment | Observed outcome |
+|---|---|
+| Revised mean reversion | 16 trades, -$136.86 in its latest test; preceding two windows also lost. |
+| Selected trend pullback | 6 trades, +$1.15 in development; frozen fresh-fetch run: 6 trades, +$0.40. |
+| Previous-day support | No profitable variant among 18 tested. |
+| Support + trend | Best hybrid: +$3.79, but only 1 trade; no hybrid reached five trades. |
+| RSI 15m/30m | Best variant: +$3.79 with 1 trade; the candidate with 5 trades lost $14.43. |
+
+Windows differ slightly between experiments. Full assumptions, UTC windows,
+research scripts and all retained comparisons are in [EXPERIMENTS.md](EXPERIMENTS.md).
+The submitted strategy also lost $20.91 and $38.53 on two preceding windows.
+On its development snapshot, increasing slippage to 5 bps erased the profit.
+The observed edge is therefore **not established**. No fixed long-only strategy
+can guarantee profit in every future day with positive fees; a constant-price
+path is a counterexample. The bot never reselects parameters during execution.
+
+## Recorded own run — 2026-10-29
+
+Invocation timestamp: **2026-10-29T08:41:30.183696Z UTC**. The complete original fresh-fetch output follows. The exact invocation timestamp
+and raw-data SHA-256 are stored in
+`evidence/trend/live-confirmation/results.json`; input candles are alongside it.
+This is a historical result, not a claim about a run performed today by a reviewer.
+
+```text
+Fetching Coinbase BTC/USD candles...
+TREND pullback | EMA 20/60 | position 10% | SL 0.40% | TP 0.80%
+SL/TP intrabar times are reported at candle END; exact touch time is unknown.
+BTC/USD | 2026-10-28T08:41:00Z -> 2026-10-29T08:41:00Z
+1m candles; final liquidation at final minute OPEN; fee 0.1% per side
+Slippage: 2.0 bps per side
+01 BUY 2026-10-28T09:11:00Z @ $81428.03 | SELL 2026-10-28T11:11:00Z @ $81240.50 | 0.01226851 BTC | buy fee $0.9990 | sell fee $0.9967 | P/L $-4.2965 | timeout
+02 BUY 2026-10-28T17:02:00Z @ $80458.87 | SELL 2026-10-28T18:37:00Z @ $81086.32 | 0.01241096 BTC | buy fee $0.9986 | sell fee $1.0064 | P/L $+5.7823 | target
+03 BUY 2026-10-28T18:49:00Z @ $81029.05 | SELL 2026-10-28T20:02:00Z @ $81660.95 | 0.01233076 BTC | buy fee $0.9991 | sell fee $1.0069 | P/L $+5.7857 | target
+04 BUY 2026-10-28T22:45:00Z @ $81248.59 | SELL 2026-10-29T00:45:00Z @ $81053.37 | 0.01230455 BTC | buy fee $0.9997 | sell fee $0.9973 | P/L $-4.3992 | timeout
+05 BUY 2026-10-29T04:33:00Z @ $79818.37 | SELL 2026-10-29T06:33:00Z @ $79991.17 | 0.01251952 BTC | buy fee $0.9993 | sell fee $1.0015 | P/L $+0.1626 | timeout
+06 BUY 2026-10-29T08:30:00Z @ $79953.64 | SELL 2026-10-29T08:40:00Z @ $79903.02 | 0.01249855 BTC | buy fee $0.9993 | sell fee $0.9987 | P/L $-2.6307 | end_of_window
+Trades: 6 | Final: $10000.40 | P/L: $+0.40 (+0.004%)
+Fees: $12.00 | BTC held: 0.00000000 | Max drawdown (sampled equity): 0.078%
+Buy & hold after identical costs: $9779.51 (-2.205%)
+PASS: profitable
+PASS: at_least_5_trades
+PASS: flat
+OVERALL: PASS
+Evidence saved to evidence/trend/live-confirmation
+```
+
+## Reproduce and inspect
 
 ```sh
 python3 -m unittest discover -s tests -v
+python3 bot.py --input evidence/trend/live-confirmation/candles.json --output runs/reproduced
 python3 bot.py --days 3
-python3 bot.py --slippage-bps 0
-python3 bot.py --input evidence/trend/candles.json --days 3 --output runs/reproduced
 ```
 
-`--input` is explicitly labelled OFFLINE. It is not a fresh run. `--days 3`
-evaluates the latest and two preceding non-overlapping days, each starting anew
-with $10,000. Previous-day data warms the indicators, not the account.
+`--input` is explicitly labelled an offline snapshot replay. Normal execution
+always fetches fresh prices. A completed experiment exits 0 even if it loses;
+data/software failures exit 1. Profit, five round trips and flatness each have
+separate PASS/FAIL checks. Raw snapshots and JSON trade records are retained.
 
-## Follow-the-trend strategy
+## AI tools and authorship
 
-Only closed candles enter the signal. The newest close must be above EMA20;
-EMA20 must be above EMA60; EMA60 must be above its value five minutes earlier.
-The previous close must have been at or below its then-current EMA20. This
-represents recovery after a pullback inside a rising trend.
-
-The paper buy executes at the next minute open plus slippage, allocating 10%
-of cash **including** the buy fee. Only one position may be held, so at least
-90% of cash stays outside that new position. SL is 0.4% below the executed buy
-price; TP is 0.8% above it. Orders become active on the entry bar. There is a
-five-minute cooldown after exits; positions also close after 120 minutes.
-There is no early exit merely because the EMA ordering changes.
-
-The hypothesis is that aligned, rising averages identify local upward momentum,
-and buying a recovered pullback avoids chasing an already extended breakout.
-The tests do **not** establish a repeatable edge. The default configuration was
-selected using the reported latest day and must be described as in-sample.
-
-## Fees, execution and clocks
-
-- Fee: 0.1% on every buy and sell; adverse slippage: default 2 basis points per side.
-- Resting SL/TP can trigger inside a candle. If both are touched, the stop wins.
-  Stop gaps fill at the worse opening price; favorable TP gaps are capped at the
-  target. Slippage applies to exits as well. These are conservative assumptions,
-  not proof of executable exchange fills.
-- Intrabar exits are timestamped at the minute's **end**, because OHLC does not
-  reveal the actual touch second. Reasons identify those exits. Open/gap and
-  timeout exits have opening timestamps. No invented intrabar event order.
-- No entry decision sees its execution candle's high, low or close. Protective
-  orders are evaluated against that bar after the decision is fixed. No reentry
-  is allowed within a candle after an exit.
-- The window is 24 hours ending at invocation rounded down to the minute, less
-  than 60 seconds before invocation. The unfinished minute is excluded. Final
-  liquidation occurs at the last minute open; no entry is allowed at that open.
-  This is a minute-resolution interpretation, not tick-exact coverage to now.
-- Two hours of earlier candles warm indicators. EMAs are recomputed causally over
-  the most recent 120 closed bars; they are finite-window seeded EMAs. No future
-  prices or window-wide trend classification enter a trading decision.
-- Buy-and-hold invests the whole $10,000 at the first open and liquidates at the
-  final open with the same costs. Its exposure differs from the 10% strategy.
-- Drawdown is sampled from minute-close liquidation equity and final fills;
-  it does not measure every intrabar equity low. Depth, latency, exchange lot
-  sizes and partial fills are not modelled.
-
-A stop limits the intended price risk, not a guaranteed realized loss. With
-$1,000 allocated, 0.4% price risk is roughly $4 before fees, gaps and slippage.
-Smaller positions scale both profits and losses; they do not create an edge.
-
-## Research log and result honesty
-
-The original mean-reversion attempt lost money; code and evidence remain in
-`legacy_mean_reversion.py`, `docs/` and the original evidence directories.
-At Daniel's request, the next experiment compared 24 fixed combinations:
-
-- Entry families: breakout or trend pullback.
-- EMA fast/slow: 5/20, 10/40 or 20/60. Breakout lookbacks: 5, 15 or 30 minutes.
-- SL/TP pairs: 0.3/0.6%, 0.4/0.8%, 0.5/1.0% or 0.6/1.2%.
-- All use 10% allocation, 120-minute maximum hold and five-minute cooldown.
-
-The comparison code was committed before its results were inspected. Results
-for **all 24** are in `evidence/trend/COMPARISON.md` and `comparison.json`.
-`research_trend.py` reproduces that explicit saved-data experiment. It is never
-called automatically by the live bot. `strategy.json` is frozen; reruns do not
-reselect the winner.
-
-The best configuration on the development day made 6 trades and **+$1.15**
-after fees and 2 bps slippage. The same configuration lost **$20.91 and $38.53**
-on the preceding two windows. With 5 bps slippage it lost **$1.85** on the selected
-day. Only one of the 24 candidates was profitable on that day. This is a tiny,
-cost-sensitive selected result, not robust performance or out-of-sample evidence.
-See `VALIDATION.md` for the subsequent fresh-fetch rerun and exact UTC windows.
-That rerun overlaps development heavily and is not independent validation either.
-
-No claim is made that a future 24h rerun will profit or make five trades. Positive
-fees and a constant-price path provide a simple counterexample to a universal
-profit guarantee. Selecting a historical winner does not resolve that limitation.
-
-## Reproducibility, AI and submission
-
-Raw snapshots, their SHA-256 digests, trades and development history are included.
-Public feed: `https://api.exchange.coinbase.com/products/BTC-USD/candles`.
-Documentation: https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-candles
-Candles are paginated, sorted and validated; gaps and invalid or conflicting
-rows cause failure rather than fabricated prices.
-
-OpenAI Codex in ChatGPT assisted with implementation, strategy experiments,
-tests and documentation. Commits honestly name Codex as author. Daniel must
-review and understand the implementation before presenting it. The work was
-performed during this conversation; no claim is made about Daniel's own
-hands-on time. The earlier README and results are retained rather than rewritten
-as if the final strategy had been chosen from the beginning.
-
-Still required for submission: publish a remote repository retaining `.git`
-history, verify the setup on a clean Mac, and record a five-minute Loom using
-`LOOM_OUTLINE.md`. No remote repository, video or application email was created
-or sent. This is a paper experiment, not a live-trading recommendation.
+**OpenAI Codex in ChatGPT** assisted with implementation, tests, strategy
+experiments and documentation. Daniel directed the experiment choices and
+position-sizing requirements. Commits honestly identify Codex's contributions;
+no historical commits were fabricated or attributed to Daniel. The repository
+retains actual incremental development history. No real orders were placed.
