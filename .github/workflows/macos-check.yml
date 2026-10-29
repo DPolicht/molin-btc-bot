@@ -1,0 +1,26 @@
+name: macOS verification
+on: [push, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Record environment
+        run: |
+          sw_vers
+          python3 --version
+          git log --oneline
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Reproduce recorded run offline
+        run: python3 bot.py --input evidence/trend/live-confirmation/candles.json --output runs/macos-offline
+      - name: Fetch and replay the latest 24 hours
+        run: python3 bot.py
