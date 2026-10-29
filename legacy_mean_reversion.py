@@ -46,15 +46,17 @@ def validate(candles, start, end):
 
 
 def fetch(start, end):
-    """Page below Coinbase's 300 candle limit. Never fabricate missing prices."""
+    """Fetch real candles; retry incomplete responses without moving the window."""
     rows = {}
-    for a in range(start, end, 240 * STEP):
-        b = min(a + 240 * STEP, end)
+
+    def request_page(a, b):
         url = 'https://api.exchange.coinbase.com/products/BTC-USD/candles?' + urlencode(
             {'granularity': STEP, 'start': iso(a), 'end': iso(b)})
         for attempt in range(3):
             try:
-                req = Request(url, headers={'User-Agent': 'MolinPaperBot/1.0', 'Accept': 'application/json'})
+                req = Request(url, headers={'User-Agent': 'MolinPaperBot/1.1',
+                                           'Accept': 'application/json',
+                                           'Cache-Control': 'no-cache'})
                 with urlopen(req, timeout=20) as response:
                     data = json.load(response)
                 if not isinstance(data, list):
@@ -65,12 +67,38 @@ def fetch(start, end):
                         if c.time in rows and rows[c.time] != c:
                             raise ValueError('Conflicting duplicate candles')
                         rows[c.time] = c
-                break
+                return
             except (OSError, ValueError) as exc:
                 if attempt == 2:
                     raise RuntimeError(f'Coinbase fetch failed: {exc}') from exc
                 time.sleep(attempt + 1)
+
+    for a in range(start, end, 240 * STEP):
+        request_page(a, min(a + 240 * STEP, end))
         time.sleep(0.15)
+
+    expected = set(range(start, end, STEP))
+    for attempt in range(3):
+        missing = sorted(expected - rows.keys())
+        if not missing:
+            break
+        print(f'Coinbase returned {len(missing)} missing minute(s); '
+              f'retrying real data ({attempt+1}/3), first: {iso(missing[0])}',
+              file=sys.stderr, flush=True)
+        time.sleep(2 ** (attempt + 1))
+        # Requery the affected pages, overlapping neighbors to avoid edge effects.
+        pages = sorted({(t - start) // (240 * STEP) for t in missing})
+        for page in pages:
+            a = max(start, start + page * 240 * STEP - STEP)
+            b = min(end, start + (page + 1) * 240 * STEP + STEP)
+            request_page(a, b)
+            time.sleep(0.15)
+    missing = sorted(expected - rows.keys())
+    if missing:
+        examples = ', '.join(iso(t) for t in missing[:5])
+        raise RuntimeError(f'Coinbase still has {len(missing)} missing minute(s) '
+                           f'after retries: {examples}. Window {iso(start)} to '
+                           f'{iso(end)}. Refusing to invent or forward-fill prices.')
     candles = sorted(rows.values(), key=lambda c: c.time)
     validate(candles, start, end)
     return candles

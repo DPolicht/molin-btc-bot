@@ -25,10 +25,10 @@ For the attached ZIP, extract it, open its `molin-btc-bot` folder in Terminal,
 and run the same command; Git is not required for the ZIP route.
 
 **Verification:** tested with Python 3.12.14 on Linux, including a fresh local
-clone, 13 passing tests and reproduction of the saved live run. Native macOS
-has not been tested in this environment. The included `macOS verification`
-GitHub Actions workflow will test a fresh checkout on macOS after publication,
-including a latest-data run; no success is claimed before it actually runs.
+clone, 16 passing tests and reproduction of the saved live run. The first GitHub-hosted macOS run passed the original 13 tests and the saved
+replay, but the live step failed on incomplete Coinbase candles. A follow-up fix
+adds targeted data retries and three feed tests (16 total locally). Its macOS
+rerun is pending. The included workflow checks both offline and live execution.
 A green workflow verifies execution, not future profitability. Read its live
 output to check whether the trading conditions passed.
 
@@ -64,7 +64,8 @@ using Python's standard-library HTTPS client:
 It requests 60-second candles with explicit UTC start/end times, in pages of
 at most 240 minutes, below the API's 300-candle limit. Coinbase rows are parsed
 as `[time, low, high, open, close, volume]`; results are sorted and deduplicated.
-Requests are retried up to three times. Missing minutes, conflicting duplicates
+Transport requests are retried up to three times; incomplete candle sets also
+trigger up to three targeted refetch rounds, keeping the original window fixed. Missing minutes, conflicting duplicates
 or invalid OHLCV cause an error, not invented prices or an offline fallback.
 
 The window is exactly 24 hours ending at invocation rounded down to the minute

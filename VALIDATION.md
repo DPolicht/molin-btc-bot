@@ -61,3 +61,14 @@ tick-level maximum. No real orders are possible.
 No remote repo, Loom or application email was created or sent. The ZIP retains
 actual incremental .git history; commits are attributed to Codex. Earlier
 mean-reversion evidence remains available under docs/ and original evidence/.
+
+## Public macOS attempt and feed fix
+
+The user's first published macOS workflow passed 13 unit tests and the saved
+replay, then failed the live step because the returned candle set was incomplete.
+The old generic validation error did not identify timestamps. The fix adds
+three bounded rounds of targeted real-data refetching and explicit missing-minute
+diagnostics. No prices are invented, no gaps forward-filled, and no evaluation
+window is shifted. Three new mocked-feed tests pass locally (16 tests total).
+The follow-up macOS workflow is pending the user's push. Persistent source gaps
+still cause failure rather than a fabricated successful backtest.

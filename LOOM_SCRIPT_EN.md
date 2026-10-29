@@ -95,7 +95,7 @@ SCREEN: test output and README verification section.
 
 “What I expect to remain repeatable is the process: fetching fresh prices,
 applying the same causal rules, accounting for costs, and reporting the truth.
-The code has thirteen passing tests, including sizing, fees, gap handling and
+The code has sixteen passing tests, including sizing, fees, gap handling and
 causality checks. Those tests verify software behavior, not a trading edge.
 
 The market hypothesis may work during sustained local uptrends, but persistent
