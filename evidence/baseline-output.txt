@@ -1,0 +1,33 @@
+BTC/USD | 2026-10-28T08:19:00Z -> 2026-10-29T08:19:00Z
+1m candles; final liquidation at final minute OPEN; fee 0.1% per side
+Slippage: 2.0 bps per side
+Trades: 0 | Final: $10000.00 | P/L: $+0.00 (+0.000%)
+Fees: $0.00 | BTC held: 0.00000000 | Max drawdown (minute opens): 0.000%
+Buy & hold after identical costs: $9837.54 (-1.625%)
+FAIL: profitable
+FAIL: at_least_5_trades
+PASS: flat
+OVERALL: FAIL
+BTC/USD | 2026-10-27T08:19:00Z -> 2026-10-28T08:19:00Z
+1m candles; final liquidation at final minute OPEN; fee 0.1% per side
+Slippage: 2.0 bps per side
+Trades: 0 | Final: $10000.00 | P/L: $+0.00 (+0.000%)
+Fees: $0.00 | BTC held: 0.00000000 | Max drawdown (minute opens): 0.000%
+Buy & hold after identical costs: $10136.45 (+1.365%)
+FAIL: profitable
+FAIL: at_least_5_trades
+PASS: flat
+OVERALL: FAIL
+BTC/USD | 2026-10-26T08:19:00Z -> 2026-10-27T08:19:00Z
+1m candles; final liquidation at final minute OPEN; fee 0.1% per side
+Slippage: 2.0 bps per side
+01 BUY 2026-10-26T16:07:00Z @ $80151.25 | SELL 2026-10-26T16:37:00Z @ $79655.62 | 0.03115987 BTC | buy fee $2.4975 | sell fee $2.4821 | P/L $-20.4234 | stop
+02 BUY 2026-10-26T16:38:00Z @ $79758.72 | SELL 2026-10-26T16:55:00Z @ $79950.99 | 0.03124927 BTC | buy fee $2.4924 | sell fee $2.4984 | P/L $+1.0174 | mean_reversion
+Trades: 2 | Final: $9980.59 | P/L: $-19.41 (-0.194%)
+Fees: $9.97 | BTC held: 0.00000000 | Max drawdown (minute opens): 0.264%
+Buy & hold after identical costs: $9963.71 (-0.363%)
+FAIL: profitable
+FAIL: at_least_5_trades
+PASS: flat
+OVERALL: FAIL
+Evidence saved to evidence/live

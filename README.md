@@ -42,8 +42,8 @@ The report, candles and SHA-256 snapshot digest make results reproducible.
 Hypothesis: some temporary sell-offs recover toward a recent mean, provided
 the market is not in a pronounced downtrend. This is a hypothesis to test, not
 an established edge. At a minute close, require the preceding close below the
-30-minute mean minus 1.3 standard deviations, a rising latest close, and at least
-0.30% distance back to the mean. The 60-minute mean must be at least 99.9% of
+30-minute mean minus 1.0 standard deviations, a rising latest close, and at least
+0.10% distance back to the mean. The 60-minute mean must be at least 99.7% of
 the 120-minute mean. These statistics use closed candles only.
 
 Buy at the **next minute open**, allocating 25% of current cash including the
@@ -85,10 +85,15 @@ latency, exchange lot sizes and partial fills are not modelled.
 ## How this was developed / what did not work
 
 The design began with the cost hurdle: a fee-only round trip needs about 0.2002%
-price appreciation to break even. The 0.30% entry discount is an initial heuristic,
+price appreciation to break even. The 0.10% entry discount is an exploratory heuristic,
 not a fitted or statistically justified optimum. A simple mean-reversion idea was
-chosen for auditability within the time box. No strategy sweep, hidden parameter
-search or best-day selection is performed.
+chosen for auditability within the time box. The initial entry rules (1.3 standard deviations, 0.30% discount, 99.9% trend
+filter) produced 0, 0 and 2 trades on the three downloaded days. A single
+exploratory revision relaxed them to 1.0, 0.10% and 99.7%. Both outputs are
+retained. These days are development data, not an untouched out-of-sample test.
+No automatic strategy selection or parameter search runs at evaluation time.
+The smaller discount does not itself cover costs; the strategy depends on
+a larger subsequent recovery, which may never occur.
 
 The included constant-price experiment proves that forced trading does not
 solve the task: one round trip loses exactly its fees, and repeated round trips

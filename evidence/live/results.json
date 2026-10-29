@@ -1,0 +1,98 @@
+[
+  {
+    "start": "2026-10-28T08:19:00Z",
+    "end": "2026-10-29T08:19:00Z",
+    "liquidation_time": "2026-10-29T08:18:00Z",
+    "final_balance": 10000.0,
+    "profit_usd": 0.0,
+    "profit_pct": 0.0,
+    "trades": [],
+    "number_of_trades": 0,
+    "btc_held": 0.0,
+    "total_fees": 0,
+    "max_drawdown_pct": 0.0,
+    "buy_and_hold_balance": 9837.544450747468,
+    "buy_and_hold_profit_pct": -1.6245554925253258,
+    "slippage_bps": 2.0,
+    "checks": {
+      "profitable": false,
+      "at_least_5_trades": false,
+      "flat": true
+    },
+    "run_at": "2026-10-29T08:19:54.786599Z",
+    "snapshot_sha256": "2c9f3d9f7cf8fbaae6a9a27d17651da7b3a82e7da3b29641b334956855cabac8"
+  },
+  {
+    "start": "2026-10-27T08:19:00Z",
+    "end": "2026-10-28T08:19:00Z",
+    "liquidation_time": "2026-10-28T08:18:00Z",
+    "final_balance": 10000.0,
+    "profit_usd": 0.0,
+    "profit_pct": 0.0,
+    "trades": [],
+    "number_of_trades": 0,
+    "btc_held": 0.0,
+    "total_fees": 0,
+    "max_drawdown_pct": 0.0,
+    "buy_and_hold_balance": 10136.453197282834,
+    "buy_and_hold_profit_pct": 1.3645319728283312,
+    "slippage_bps": 2.0,
+    "checks": {
+      "profitable": false,
+      "at_least_5_trades": false,
+      "flat": true
+    },
+    "run_at": "2026-10-29T08:19:54.786599Z",
+    "snapshot_sha256": "2c9f3d9f7cf8fbaae6a9a27d17651da7b3a82e7da3b29641b334956855cabac8"
+  },
+  {
+    "start": "2026-10-26T08:19:00Z",
+    "end": "2026-10-27T08:19:00Z",
+    "liquidation_time": "2026-10-27T08:18:00Z",
+    "final_balance": 9980.594054407658,
+    "profit_usd": -19.405945592341595,
+    "profit_pct": -0.19405945592341212,
+    "trades": [
+      {
+        "buy_time": 1793030820,
+        "buy_price": 80151.247044,
+        "size_btc": 0.031159870739521534,
+        "buy_fee": 2.4975024975024978,
+        "cost": 2500.0,
+        "sell_time": 1793032620,
+        "sell_price": 79655.61569,
+        "sell_fee": 2.482058688577404,
+        "reason": "stop",
+        "fees": 4.979561186079902,
+        "pnl": -20.42337011117388
+      },
+      {
+        "buy_time": 1793032680,
+        "buy_price": 79758.718554,
+        "size_btc": 0.031249270310543285,
+        "buy_fee": 2.4924017557164904,
+        "cost": 2494.8941574722066,
+        "sell_time": 1793033700,
+        "sell_price": 79950.98660399999,
+        "sell_fee": 2.498409991983021,
+        "reason": "mean_reversion",
+        "fees": 4.990811747699512,
+        "pnl": 1.0174245188313762
+      }
+    ],
+    "number_of_trades": 2,
+    "btc_held": 0.0,
+    "total_fees": 9.970372933779414,
+    "max_drawdown_pct": 0.26403938211273514,
+    "buy_and_hold_balance": 9963.705572932693,
+    "buy_and_hold_profit_pct": -0.3629442706730712,
+    "slippage_bps": 2.0,
+    "checks": {
+      "profitable": false,
+      "at_least_5_trades": false,
+      "flat": true
+    },
+    "run_at": "2026-10-29T08:19:54.786599Z",
+    "snapshot_sha256": "2c9f3d9f7cf8fbaae6a9a27d17651da7b3a82e7da3b29641b334956855cabac8"
+  }
+]

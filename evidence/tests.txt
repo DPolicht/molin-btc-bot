@@ -7,6 +7,6 @@ test_signal_requires_past_warmup (test_bot.ReplayTests.test_signal_requires_past
 test_slippage_reduces_result_and_benchmark (test_bot.ReplayTests.test_slippage_reduces_result_and_benchmark) ... ok
 
 ----------------------------------------------------------------------
-Ran 7 tests in 0.032s
+Ran 7 tests in 0.028s
 
 OK

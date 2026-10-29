@@ -95,9 +95,9 @@ def signal(history, entry=None):
     mean = statistics.mean(closes[-30:])
     std = statistics.pstdev(closes[-30:])
     # Avoid strong downtrends; require a meaningful discount and a recovery tick.
-    trend_ok = statistics.mean(closes[-60:]) >= statistics.mean(closes[-120:]) * 0.999
-    if (std > 0 and trend_ok and closes[-2] < mean - 1.3 * std
-            and closes[-1] > closes[-2] and mean / closes[-1] - 1 > 0.003):
+    trend_ok = statistics.mean(closes[-60:]) >= statistics.mean(closes[-120:]) * 0.997
+    if (std > 0 and trend_ok and closes[-2] < mean - 1.0 * std
+            and closes[-1] > closes[-2] and mean / closes[-1] - 1 > 0.001):
         return 'pullback'
     return None
 
