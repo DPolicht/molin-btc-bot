@@ -1,0 +1,11 @@
+{
+  "family": "pullback",
+  "fast": 20,
+  "slow": 60,
+  "breakout": 30,
+  "stop_loss": 0.004,
+  "take_profit": 0.008,
+  "allocation": 0.1,
+  "max_hold": 120,
+  "cooldown": 5
+}

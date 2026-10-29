@@ -1,6 +1,6 @@
 """Long-only trend hypotheses and causal bracket-order replay."""
 from dataclasses import dataclass, asdict
-from bot import Candle, FEE, INITIAL, STEP, WARMUP, validate, iso
+from legacy_mean_reversion import Candle, FEE, INITIAL, STEP, WARMUP, validate, iso
 
 @dataclass(frozen=True)
 class Config:

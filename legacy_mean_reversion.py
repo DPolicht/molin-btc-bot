@@ -161,7 +161,7 @@ def report(result):
     print(f"Trades: {result['number_of_trades']} | Final: ${result['final_balance']:.2f} | "
           f"P/L: ${result['profit_usd']:+.2f} ({result['profit_pct']:+.3f}%)")
     print(f"Fees: ${result['total_fees']:.2f} | BTC held: {result['btc_held']:.8f} | "
-          f"Max drawdown (minute opens): {result['max_drawdown_pct']:.3f}%")
+          f"Max drawdown (sampled equity): {result['max_drawdown_pct']:.3f}%")
     print(f"Buy & hold after identical costs: ${result['buy_and_hold_balance']:.2f} "
           f"({result['buy_and_hold_profit_pct']:+.3f}%)")
     for k, v in result['checks'].items():
