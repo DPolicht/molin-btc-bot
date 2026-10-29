@@ -1,0 +1,20 @@
+Fetching Coinbase BTC/USD candles...
+TREND pullback | EMA 20/60 | position 10% | SL 0.40% | TP 0.80%
+SL/TP intrabar times are reported at candle END; exact touch time is unknown.
+BTC/USD | 2026-10-28T08:41:00Z -> 2026-10-29T08:41:00Z
+1m candles; final liquidation at final minute OPEN; fee 0.1% per side
+Slippage: 2.0 bps per side
+01 BUY 2026-10-28T09:11:00Z @ $81428.03 | SELL 2026-10-28T11:11:00Z @ $81240.50 | 0.01226851 BTC | buy fee $0.9990 | sell fee $0.9967 | P/L $-4.2965 | timeout
+02 BUY 2026-10-28T17:02:00Z @ $80458.87 | SELL 2026-10-28T18:37:00Z @ $81086.32 | 0.01241096 BTC | buy fee $0.9986 | sell fee $1.0064 | P/L $+5.7823 | target
+03 BUY 2026-10-28T18:49:00Z @ $81029.05 | SELL 2026-10-28T20:02:00Z @ $81660.95 | 0.01233076 BTC | buy fee $0.9991 | sell fee $1.0069 | P/L $+5.7857 | target
+04 BUY 2026-10-28T22:45:00Z @ $81248.59 | SELL 2026-10-29T00:45:00Z @ $81053.37 | 0.01230455 BTC | buy fee $0.9997 | sell fee $0.9973 | P/L $-4.3992 | timeout
+05 BUY 2026-10-29T04:33:00Z @ $79818.37 | SELL 2026-10-29T06:33:00Z @ $79991.17 | 0.01251952 BTC | buy fee $0.9993 | sell fee $1.0015 | P/L $+0.1626 | timeout
+06 BUY 2026-10-29T08:30:00Z @ $79953.64 | SELL 2026-10-29T08:40:00Z @ $79903.02 | 0.01249855 BTC | buy fee $0.9993 | sell fee $0.9987 | P/L $-2.6307 | end_of_window
+Trades: 6 | Final: $10000.40 | P/L: $+0.40 (+0.004%)
+Fees: $12.00 | BTC held: 0.00000000 | Max drawdown (sampled equity): 0.078%
+Buy & hold after identical costs: $9779.51 (-2.205%)
+PASS: profitable
+PASS: at_least_5_trades
+PASS: flat
+OVERALL: PASS
+Evidence saved to evidence/trend/live-confirmation

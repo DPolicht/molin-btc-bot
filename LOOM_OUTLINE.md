@@ -1,23 +1,26 @@
-# Five-minute Loom outline
+# Five-minute Loom — trend experiment
 
-0:00–0:40 — Show the brief and the product. Explain: a causal paper replay,
-not a profit guarantee. Show Python version and the single command.
+0:00–0:40: Show the single command and describe the deliverable: BTC/USD paper
+replay, $10,000, 10% cash per position, no real orders.
 
-0:40–1:40 — Explain the mean-reversion hypothesis, trend filter, cost hurdle,
-position sizing and exits. Point out that parameters were not fitted to the
-reviewer's future window.
+0:40–1:30: Explain rising EMA20/EMA60 alignment and recovery after a pullback.
+Show the 0.4% stop, 0.8% target, 120-minute timeout and five-minute cooldown.
+Explain that allocation reduces exposure, not the probability of a losing trade.
 
-1:40–2:40 — Share bot.py: show history-only signal input, next-open fill,
-buy/sell fees, slippage, and scheduled liquidation. Explain the minute boundary.
+1:30–2:30: Show trend.py. Entry uses past closed candles, then next open fills.
+Explain intrabar protective exits, stop-first ambiguous bars, stop gaps, fees,
+slippage and scheduled liquidation. Minute-end SL/TP times are labels, not exact
+observed fill times.
 
-2:40–3:40 — Show the actual live output, each assignment PASS/FAIL, buy-and-hold,
-and preceding windows. If live retrieval fails, show the error honestly; an
-offline or synthetic replay is not proof of live data access.
+2:30–3:40: Show comparison of all 24 candidates. Disclose that the selected day
+was used to choose the configuration. Show the small profit, preceding losses,
+and slippage sensitivity. Show exact latest fresh-fetch output and acknowledge
+whether that rerun passes; do not substitute an older result without saying so.
 
-3:40–4:30 — Explain what the tests establish and what they cannot. Show the
-constant-price fee counterexample. Do not claim that seven passing tests prove
-an edge or that a historical profit predicts the next day.
+3:40–4:30: Show tests for cash accounting, causal signals, bracket priority and
+no final-minute entry. Explain that software tests do not prove a trading edge.
 
-4:30–5:00 — State your conclusion and next experiment: longer out-of-sample
-validation, regimes and cost sensitivity before any real-money consideration.
-Say clearly whether this version meets the profit and five-trade conditions.
+4:30–5:00: State the conclusion: a functioning, rerunnable trend experiment,
+with no robust profitability established. A future window may lose money.
+Discuss what you would test next if the time box allowed: independent rolling
+windows, regime sensitivity and more realistic execution costs.

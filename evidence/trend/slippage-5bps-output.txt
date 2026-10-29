@@ -1,0 +1,62 @@
+OFFLINE SNAPSHOT REPLAY (not a fresh market-data run)
+TREND pullback | EMA 20/60 | position 10% | SL 0.40% | TP 0.80%
+SL/TP intrabar times are reported at candle END; exact touch time is unknown.
+BTC/USD | 2026-10-28T08:38:00Z -> 2026-10-29T08:38:00Z
+1m candles; final liquidation at final minute OPEN; fee 0.1% per side
+Slippage: 5.0 bps per side
+01 BUY 2026-10-28T09:11:00Z @ $81452.46 | SELL 2026-10-28T11:11:00Z @ $81216.12 | 0.01226484 BTC | buy fee $0.9990 | sell fee $0.9961 | P/L $-4.8937 | timeout
+02 BUY 2026-10-28T17:02:00Z @ $80483.00 | SELL 2026-10-28T18:37:00Z @ $81086.30 | 0.01240650 BTC | buy fee $0.9985 | sell fee $1.0060 | P/L $+5.4803 | target
+03 BUY 2026-10-28T18:49:00Z @ $81053.36 | SELL 2026-10-28T20:02:00Z @ $81660.93 | 0.01232595 BTC | buy fee $0.9991 | sell fee $1.0065 | P/L $+5.4833 | target
+04 BUY 2026-10-28T22:45:00Z @ $81272.96 | SELL 2026-10-29T00:45:00Z @ $81029.05 | 0.01229939 BTC | buy fee $0.9996 | sell fee $0.9966 | P/L $-4.9962 | timeout
+05 BUY 2026-10-29T04:33:00Z @ $79842.31 | SELL 2026-10-29T06:33:00Z @ $79967.17 | 0.01251352 BTC | buy fee $0.9991 | sell fee $1.0007 | P/L $-0.4374 | timeout
+06 BUY 2026-10-29T08:30:00Z @ $79977.62 | SELL 2026-10-29T08:37:00Z @ $79938.66 | 0.01249180 BTC | buy fee $0.9991 | sell fee $0.9986 | P/L $-2.4843 | end_of_window
+Trades: 6 | Final: $9998.15 | P/L: $-1.85 (-0.018%)
+Fees: $12.00 | BTC held: 0.00000000 | Max drawdown (sampled equity): 0.090%
+Buy & hold after identical costs: $9780.90 (-2.191%)
+FAIL: profitable
+PASS: at_least_5_trades
+PASS: flat
+OVERALL: FAIL
+TREND pullback | EMA 20/60 | position 10% | SL 0.40% | TP 0.80%
+SL/TP intrabar times are reported at candle END; exact touch time is unknown.
+BTC/USD | 2026-10-27T08:38:00Z -> 2026-10-28T08:38:00Z
+1m candles; final liquidation at final minute OPEN; fee 0.1% per side
+Slippage: 5.0 bps per side
+01 BUY 2026-10-27T09:06:00Z @ $79740.00 | SELL 2026-10-27T10:11:00Z @ $79381.33 | 0.01252823 BTC | buy fee $0.9990 | sell fee $0.9945 | P/L $-6.4870 | stop
+02 BUY 2026-10-27T11:31:00Z @ $79849.50 | SELL 2026-10-27T13:31:00Z @ $79922.35 | 0.01250293 BTC | buy fee $0.9984 | sell fee $0.9993 | P/L $-1.0869 | timeout
+03 BUY 2026-10-27T13:44:00Z @ $80158.16 | SELL 2026-10-27T13:54:00Z @ $79797.61 | 0.01245343 BTC | buy fee $0.9982 | sell fee $0.9938 | P/L $-6.4821 | stop
+04 BUY 2026-10-27T14:51:00Z @ $80201.49 | SELL 2026-10-27T16:51:00Z @ $80360.85 | 0.01243863 BTC | buy fee $0.9976 | sell fee $0.9996 | P/L $-0.0150 | timeout
+05 BUY 2026-10-27T17:03:00Z @ $80529.01 | SELL 2026-10-27T19:03:00Z @ $80560.69 | 0.01238802 BTC | buy fee $0.9976 | sell fee $0.9980 | P/L $-1.6032 | timeout
+06 BUY 2026-10-27T19:54:00Z @ $80670.94 | SELL 2026-10-27T21:54:00Z @ $80813.03 | 0.01236424 BTC | buy fee $0.9974 | sell fee $0.9992 | P/L $-0.2397 | timeout
+07 BUY 2026-10-27T22:16:00Z @ $80875.79 | SELL 2026-10-28T00:16:00Z @ $80659.93 | 0.01233263 BTC | buy fee $0.9974 | sell fee $0.9947 | P/L $-4.6543 | timeout
+08 BUY 2026-10-28T01:55:00Z @ $80813.22 | SELL 2026-10-28T03:55:00Z @ $80976.82 | 0.01233643 BTC | buy fee $0.9969 | sell fee $0.9990 | P/L $+0.0224 | timeout
+09 BUY 2026-10-28T04:00:00Z @ $81064.29 | SELL 2026-10-28T06:00:00Z @ $80740.71 | 0.01229824 BTC | buy fee $0.9969 | sell fee $0.9930 | P/L $-5.9694 | timeout
+10 BUY 2026-10-28T06:25:00Z @ $80884.82 | SELL 2026-10-28T08:25:00Z @ $81064.87 | 0.01231816 BTC | buy fee $0.9964 | sell fee $0.9986 | P/L $+0.2229 | timeout
+Trades: 10 | Final: $9973.71 | P/L: $-26.29 (-0.263%)
+Fees: $19.95 | BTC held: 0.00000000 | Max drawdown (sampled equity): 0.307%
+Buy & hold after identical costs: $10203.48 (+2.035%)
+FAIL: profitable
+PASS: at_least_5_trades
+PASS: flat
+OVERALL: FAIL
+TREND pullback | EMA 20/60 | position 10% | SL 0.40% | TP 0.80%
+SL/TP intrabar times are reported at candle END; exact touch time is unknown.
+BTC/USD | 2026-10-26T08:38:00Z -> 2026-10-27T08:38:00Z
+1m candles; final liquidation at final minute OPEN; fee 0.1% per side
+Slippage: 5.0 bps per side
+01 BUY 2026-10-26T09:06:00Z @ $80193.27 | SELL 2026-10-26T11:06:00Z @ $80153.71 | 0.01245742 BTC | buy fee $0.9990 | sell fee $0.9985 | P/L $-2.4902 | timeout
+02 BUY 2026-10-26T12:51:00Z @ $80300.16 | SELL 2026-10-26T13:13:00Z @ $79938.97 | 0.01243774 BTC | buy fee $0.9988 | sell fee $0.9943 | P/L $-6.4854 | stop
+03 BUY 2026-10-26T15:32:00Z @ $80504.95 | SELL 2026-10-26T16:05:00Z @ $80142.84 | 0.01239805 BTC | buy fee $0.9981 | sell fee $0.9936 | P/L $-6.4812 | stop
+04 BUY 2026-10-26T17:34:00Z @ $80309.49 | SELL 2026-10-26T18:47:00Z @ $79948.26 | 0.01242016 BTC | buy fee $0.9975 | sell fee $0.9930 | P/L $-6.4770 | stop
+05 BUY 2026-10-26T22:03:00Z @ $80021.53 | SELL 2026-10-26T23:04:00Z @ $79661.59 | 0.01245677 BTC | buy fee $0.9968 | sell fee $0.9923 | P/L $-6.4728 | stop
+06 BUY 2026-10-26T23:53:00Z @ $80032.89 | SELL 2026-10-27T01:53:00Z @ $79850.29 | 0.01244692 BTC | buy fee $0.9962 | sell fee $0.9939 | P/L $-4.2628 | timeout
+07 BUY 2026-10-27T05:11:00Z @ $79678.02 | SELL 2026-10-27T07:11:00Z @ $79452.50 | 0.01249701 BTC | buy fee $0.9957 | sell fee $0.9929 | P/L $-4.8069 | timeout
+08 BUY 2026-10-27T08:01:00Z @ $79788.73 | SELL 2026-10-27T08:37:00Z @ $79577.29 | 0.01247365 BTC | buy fee $0.9953 | sell fee $0.9926 | P/L $-4.6253 | end_of_window
+Trades: 8 | Final: $9957.90 | P/L: $-42.10 (-0.421%)
+Fees: $15.93 | BTC held: 0.00000000 | Max drawdown (sampled equity): 0.429%
+Buy & hold after identical costs: $9907.76 (-0.922%)
+FAIL: profitable
+PASS: at_least_5_trades
+PASS: flat
+OVERALL: FAIL
+Evidence saved to evidence/trend/slippage-5bps

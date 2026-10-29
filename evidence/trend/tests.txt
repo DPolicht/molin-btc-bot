@@ -1,0 +1,18 @@
+test_flat_round_trip_loses_exact_fees (test_bot.ReplayTests.test_flat_round_trip_loses_exact_fees) ... ok
+test_future_changes_do_not_change_prefix_orders (test_bot.ReplayTests.test_future_changes_do_not_change_prefix_orders) ... ok
+test_gap_duplicate_nan_rejected (test_bot.ReplayTests.test_gap_duplicate_nan_rejected) ... ok
+test_next_open_execution_and_scheduled_liquidation (test_bot.ReplayTests.test_next_open_execution_and_scheduled_liquidation) ... ok
+test_no_final_minute_entry (test_bot.ReplayTests.test_no_final_minute_entry) ... ok
+test_signal_requires_past_warmup (test_bot.ReplayTests.test_signal_requires_past_warmup) ... ok
+test_slippage_reduces_result_and_benchmark (test_bot.ReplayTests.test_slippage_reduces_result_and_benchmark) ... ok
+test_ambiguous_bar_takes_stop_first (test_trend.TrendTests.test_ambiguous_bar_takes_stop_first) ... ok
+test_entry_bar_stop_and_no_reentry_same_bar (test_trend.TrendTests.test_entry_bar_stop_and_no_reentry_same_bar) ... ok
+test_real_signal_and_prefix_are_causal (test_trend.TrendTests.test_real_signal_and_prefix_are_causal) ... ok
+test_stop_gap_uses_worse_open (test_trend.TrendTests.test_stop_gap_uses_worse_open) ... ok
+test_target_gap_is_capped (test_trend.TrendTests.test_target_gap_is_capped) ... ok
+test_ten_percent_and_cash_accounting (test_trend.TrendTests.test_ten_percent_and_cash_accounting) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.062s
+
+OK
